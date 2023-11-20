@@ -1,0 +1,28 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-style{
+    background-color: chartreuse!important;
+}
+
+.btn-style:hover{
+    background-color: rgba(97, 184, 10, 0.5)!important;
+}
+
+.btn-style:active{
+    background-color: rgba(97, 184, 10, 0)!important;
+    border: 1px solid #a8ff78!important;
+}
+
+.diagonal-gradient {
+    background: #a8ff78; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #a8ff78, #78ffd6); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #a8ff78, #78ffd6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+
+.card{
+    min-height: 520px;
+}
