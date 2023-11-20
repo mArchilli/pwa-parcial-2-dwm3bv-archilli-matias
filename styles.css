@@ -26,3 +26,23 @@
 .card{
     min-height: 520px;
 }
+
+/* Estilos personalizados para la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  /* Microsoft Edge y navegadores basados en Chromium */
+  * {
+    scrollbar-color: #333 #f1f1f1;
+    scrollbar-width: thin;
+  }
