@@ -12,3 +12,21 @@ self.addEventListener("install", (e) => {
     });
     e.waitUntil(cache);
 });
+
+self.addEventListener("fetch", (e) => {
+    const url = e.request.url;
+    console.log(url);
+    const response =
+        fetch(e.request)
+            .then((res) => {
+              return caches.open('mi-cache-2').then(cache => {
+                  cache.put(e.request, res.clone());
+                  return res;
+              })
+            })
+            .catch((err) => {
+                return caches.match(e.request);
+            })
+    e.respondWith(response);
+
+});
