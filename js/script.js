@@ -52,10 +52,10 @@ function showModal(personajeId) {
                     <img class="img-fluid w-100" src="${personaje.image}" alt="Imagen de ${personaje.name} ">
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Nombre: ${personaje.name}</li>
-                    <li class="list-group-item">Especie: ${personaje.species}</li>
-                    <li class="list-group-item">Estado: ${personaje.status}</li>
-                    <li class="list-group-item">Creado: ${personaje.created}</li>
+                    <li class="list-group-item"><strong>Nombre:</strong> ${personaje.name}</li>
+                    <li class="list-group-item"><strong>Especie:</strong> ${personaje.species}</li>
+                    <li class="list-group-item"><strong>Estado:</strong> ${personaje.status}</li>
+                    <li class="list-group-item"><strong>Creado:</strong> ${personaje.created}</li>
                 </ul>
                 `;
 
