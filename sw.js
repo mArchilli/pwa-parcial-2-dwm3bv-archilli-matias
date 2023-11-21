@@ -1,5 +1,9 @@
+caches.keys().then(cache => {
+    console.log("cache", cache)
+})
+
 self.addEventListener("install", (e) => {
-    console.log("install");
+    //console.log("install");
     const cache = caches.open("mi-cache-2").then((cache) => {
         cache.addAll([
             '/',
@@ -15,7 +19,7 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("fetch", (e) => {
     const url = e.request.url;
-    console.log(url);
+    //console.log(url);
     const response =
         fetch(e.request)
             .then((res) => {
