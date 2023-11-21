@@ -3,6 +3,16 @@ const modalPersonaje = document.getElementById('personajeModal');
 const modalLabel = document.getElementById('personajeModalLabel');
 const modalContent = document.getElementById('personajeModalContent');
 
+if("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js")
+    .then((registration) => {
+        console.log("Service Worker instalado correctamente");
+    })
+    .catch((error) => {
+        console.log("Service Worker no se encuentra instalado correctamente");
+    });
+}
+
 const getData = () => {
     return fetch('https://rickandmortyapi.com/api/character/?status=alive&limit=20')
     .then(response => response.json())
