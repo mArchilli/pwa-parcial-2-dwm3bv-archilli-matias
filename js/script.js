@@ -48,8 +48,8 @@ function showModal(personajeId) {
 
             modalLabel.textContent = personaje.name;
             modalContent.innerHTML = `
-                <div class="my-3">
-                    <img class="img-fluid" src="${personaje.image}" alt="Imagen de ${personaje.name} ">
+                <div class="mb-3">
+                    <img class="img-fluid w-100" src="${personaje.image}" alt="Imagen de ${personaje.name} ">
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Nombre: ${personaje.name}</li>
