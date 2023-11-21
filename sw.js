@@ -8,10 +8,11 @@ self.addEventListener("install", (e) => {
         cache.addAll([
             '/',
             '/img/favicon.png',
+            '/css/styles.css',
             'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
             'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
-            '/css/style.css',
-            '/js/script.js'
+            'https://rickandmortyapi.com/api/character/?status=alive&limit=20',
+            '/js/script.js',
         ]);
     });
     e.waitUntil(cache);
