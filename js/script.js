@@ -6,17 +6,42 @@ const modalContent = document.getElementById('personajeModalContent');
 if("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js")
     .then((registration) => {
-        console.log("Service Worker instalado correctamente");
+        console.log("Service Worker instalado");
     })
     .catch((error) => {
         console.log("Service Worker no se encuentra instalado correctamente");
     });
 }
 
-const getData = () => {
-    return fetch('https://rickandmortyapi.com/api/character/?status=alive&limit=20')
-    .then(response => response.json())
-    .then(data => {
+// const getData = () => {
+//     return fetch('https://rickandmortyapi.com/api/character/?status=alive&limit=20')
+//     .then(response => response.json())
+//     .then(data => {
+//         const personajes = data.results;
+//         personajes.forEach(personaje => {
+//             const personajeItem = document.createElement('div');
+//             personajeItem.className = 'col-12 col-md-6 col-lg-4 mb-4';
+//             personajeItem.innerHTML = `
+//                 <div class="card">
+//                     <img src="${personaje.image}" class="card-img-top" alt="Imagen ${personaje.name}">
+                    
+//                     <div class="card-body d-flex flex-column justify-content-between">
+//                         <h3 class="card-title">${personaje.name}</h3>\
+//                         <p class="card-text">Gender: ${personaje.gender}</p>
+//                         <button class="btn btn-style" onclick="showModal(${personaje.id})">Ver Detalles</button>
+//                     </div>
+//                 </div>
+//             `;
+//             listaPersonajes.appendChild(personajeItem);
+//         });
+//     });
+// }
+
+(async () => {
+    try {
+        const response = await fetch('https://rickandmortyapi.com/api/character/?status=alive&limit=20');
+        const data = await response.json();
+        
         const personajes = data.results;
         personajes.forEach(personaje => {
             const personajeItem = document.createElement('div');
@@ -26,7 +51,7 @@ const getData = () => {
                     <img src="${personaje.image}" class="card-img-top" alt="Imagen ${personaje.name}">
                     
                     <div class="card-body d-flex flex-column justify-content-between">
-                        <h3 class="card-title">${personaje.name}</h3>\
+                        <h3 class="card-title">${personaje.name}</h3>
                         <p class="card-text">Gender: ${personaje.gender}</p>
                         <button class="btn btn-style" onclick="showModal(${personaje.id})">Ver Detalles</button>
                     </div>
@@ -34,8 +59,10 @@ const getData = () => {
             `;
             listaPersonajes.appendChild(personajeItem);
         });
-    });
-}
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+})();
 
 
 function showModal(personajeId) {    
@@ -64,5 +91,5 @@ function showModal(personajeId) {
         })
 }
 
-getData();
+//getData();
 
