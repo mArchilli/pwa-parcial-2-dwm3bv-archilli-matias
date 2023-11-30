@@ -3,93 +3,78 @@ const modalPersonaje = document.getElementById('personajeModal');
 const modalLabel = document.getElementById('personajeModalLabel');
 const modalContent = document.getElementById('personajeModalContent');
 
-if("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js")
-    .then((registration) => {
-        console.log("Service Worker instalado");
-    })
-    .catch((error) => {
-        console.log("Service Worker no se encuentra instalado correctamente");
-    });
+        .then((registration) => {
+            console.log("Service Worker registrado");
+        })
+        .catch((error) => {
+            console.log("Service Worker no se encuentra registrado");
+        });
 }
-
-// const getData = () => {
-//     return fetch('https://rickandmortyapi.com/api/character/?status=alive&limit=20')
-//     .then(response => response.json())
-//     .then(data => {
-//         const personajes = data.results;
-//         personajes.forEach(personaje => {
-//             const personajeItem = document.createElement('div');
-//             personajeItem.className = 'col-12 col-md-6 col-lg-4 mb-4';
-//             personajeItem.innerHTML = `
-//                 <div class="card">
-//                     <img src="${personaje.image}" class="card-img-top" alt="Imagen ${personaje.name}">
-                    
-//                     <div class="card-body d-flex flex-column justify-content-between">
-//                         <h3 class="card-title">${personaje.name}</h3>\
-//                         <p class="card-text">Gender: ${personaje.gender}</p>
-//                         <button class="btn btn-style" onclick="showModal(${personaje.id})">Ver Detalles</button>
-//                     </div>
-//                 </div>
-//             `;
-//             listaPersonajes.appendChild(personajeItem);
-//         });
-//     });
-// }
 
 (async () => {
     try {
-        const response = await fetch('https://rickandmortyapi.com/api/character/?status=alive&limit=20');
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20');
         const data = await response.json();
-        
-        const personajes = data.results;
-        personajes.forEach(personaje => {
-            const personajeItem = document.createElement('div');
-            personajeItem.className = 'col-12 col-md-6 col-lg-4 mb-4';
-            personajeItem.innerHTML = `
-                <div class="card">
-                    <img src="${personaje.image}" class="card-img-top" alt="Imagen ${personaje.name}">
-                    
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <h3 class="card-title">${personaje.name}</h3>
-                        <p class="card-text">Gender: ${personaje.gender}</p>
-                        <button class="btn btn-style" onclick="showModal(${personaje.id})">Ver Detalles</button>
-                    </div>
-                </div>
-            `;
-            listaPersonajes.appendChild(personajeItem);
-        });
+
+        const pokemons = data.results;
+        for (const pokemon of pokemons) {
+            const pokemonDetails = await fetchPokemonDetalles(pokemon.url);
+            const pokemonItem = crearPokemonCard(pokemonDetails);
+            listaPersonajes.appendChild(pokemonItem);
+        }
     } catch (error) {
         console.error('Error al obtener los datos:', error);
     }
 })();
 
+async function fetchPokemonDetalles(url) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error al obtener los detalles del Pokémon:', error);
+    }
+}
 
-function showModal(personajeId) {    
-    fetch(`https://rickandmortyapi.com/api/character/${personajeId}`)
-        .then(response => response.json())
-        .then(data => {
-            const personaje = data;
+function crearPokemonCard(pokemon) {
+    const pokemonItem = document.createElement('div');
+    pokemonItem.className = 'col-12 col-md-6 col-lg-4 mb-4';
+    pokemonItem.innerHTML = `
+        <div class="card">
+            <img src="${pokemon.sprites.front_default}" class="card-img-top" alt="Imagen ${pokemon.name}">
 
-            console.log(personaje);
+            <div class="card-body d-flex flex-column justify-content-between">
+                <h3 class="card-title">${pokemon.name}</h3>
+                <p class="card-text">Tipo: ${pokemon.types.map(type => type.type.name).join(', ')}</p>
+                <button class="btn btn-style" onclick="showModal(${pokemon.id})">Ver Detalles</button>
+            </div>
+        </div>
+    `;
+    return pokemonItem;
+}
 
-            modalLabel.textContent = personaje.name;
+function showModal(pokemonId) {
+    fetchPokemonDetalles(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
+        .then(pokemon => {
+            console.log(pokemon);
+
+            modalLabel.textContent = pokemon.name;
             modalContent.innerHTML = `
                 <div class="mb-3">
-                    <img class="img-fluid w-100" src="${personaje.image}" alt="Imagen de ${personaje.name} ">
+                    <img class="img-fluid w-100" src="${pokemon.sprites.front_default}" alt="Imagen de ${pokemon.name}">
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Nombre:</strong> ${personaje.name}</li>
-                    <li class="list-group-item"><strong>Especie:</strong> ${personaje.species}</li>
-                    <li class="list-group-item"><strong>Estado:</strong> ${personaje.status}</li>
-                    <li class="list-group-item"><strong>Creado:</strong> ${personaje.created}</li>
+                    <li class="list-group-item"><strong>Nombre:</strong> ${pokemon.name}</li>
+                    <li class="list-group-item"><strong>Especie:</strong> ${pokemon.species.name}</li>
+                    <li class="list-group-item"><strong>Altura:</strong> ${pokemon.height}</li>
+                    <li class="list-group-item"><strong>Peso:</strong> ${pokemon.weight}</li>
                 </ul>
-                `;
+            `;
 
             const modal = new bootstrap.Modal(modalPersonaje);
             modal.show();
-        })
+        });
 }
-
-//getData();
-
